@@ -11,5 +11,21 @@ public record UserDTO(
 
     @Email(message = "E-mail inválido")
     @NotBlank(message = "O e-mail é obrigatório")
-    String email
-) {}
+    String email,
+
+    String phone,
+    String address,
+    Long createdAt
+) {
+    // Método estático para converter de User para UserDTO
+    public static UserDTO fromEntity(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getAddress(),
+                user.getCreatedAt()
+        );
+    }
+}

@@ -1,9 +1,10 @@
 package com.LoadTool.user;
 
+import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,28 +14,41 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    // Retorna todos os usuários não deletados
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll()
+        return userRepository.findAllNotDeleted()
                 .stream()
-                .map(this::convertToDTO)
+                .map(UserDTO::fromEntity)
                 .toList();
     }
 
-    public Optional<UserDTO> getUserById(Long id) {
-        return userRepository.findById(id)
-                .map(this::convertToDTO);
+    // Busca um usuário por ID, lançando exceção se não encontrado
+    public UserDTO getUserById(Long id) {
+        return userRepository.findByIdAndNotDeleted(id)
+                .map(UserDTO::fromEntity)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    // Busca um usuário por e-mail, lançando exceção se não encontrado
+    public UserDTO getUserByEmail(String email) {
+        return userRepository.findByEmailAndNotDeleted(email)
+                .map(UserDTO::fromEntity)
+                .orElseThrow(() -> new UserNotFoundException(email));
+    }
+
+    // Salva um novo usuário
     public UserDTO saveUser(User user) {
+        user.setCreatedAt(Instant.now().toEpochMilli()); // Define a data de criação
         User savedUser = userRepository.save(user);
-        return convertToDTO(savedUser);
+        return UserDTO.fromEntity(savedUser);
     }
 
+    // Soft delete: marca o usuário como deletado
+    @Transactional
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    private UserDTO convertToDTO(User user) {
-        return new UserDTO(user.getId(), user.getName(), user.getEmail());
+        User user = userRepository.findByIdAndNotDeleted(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+        user.setDeletedAt(Instant.now().toEpochMilli()); // Define a data de exclusão
+        userRepository.save(user);
     }
 }

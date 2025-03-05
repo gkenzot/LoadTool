@@ -7,13 +7,14 @@ USE load_tool;
 
 -- Tabela `users`
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(32) NOT NULL, -- MD5 gera um hash de 32 caracteres
     phone VARCHAR(15),
     address VARCHAR(255),
-    created_at BIGINT DEFAULT (UNIX_TIMESTAMP() * 1000)
+    created_at BIGINT DEFAULT (UNIX_TIMESTAMP() * 1000),
+    deleted_at BIGINT DEFAULT NULL -- Nova coluna para soft delete
 );
 
 -- Tabela `categories`
@@ -28,10 +29,11 @@ CREATE TABLE tools (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     category_id INT,
-    owner_id INT,
+    owner_id BIGINT,
     daily_price DECIMAL(10, 2) NOT NULL,
     available BOOLEAN DEFAULT TRUE,
     created_at BIGINT DEFAULT (UNIX_TIMESTAMP() * 1000),
+    deleted_at BIGINT DEFAULT NULL, -- Nova coluna para soft delete
     FOREIGN KEY (owner_id) REFERENCES users(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
@@ -40,7 +42,7 @@ CREATE TABLE tools (
 CREATE TABLE rentals (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tool_id INT,
-    renter_id INT,
+    renter_id BIGINT, -- Alterado para BIGINT
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
@@ -54,8 +56,8 @@ CREATE TABLE rentals (
 CREATE TABLE reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     rental_id INT,
-    reviewer_id INT,
-    reviewed_id INT,
+    reviewer_id BIGINT, -- Alterado para BIGINT
+    reviewed_id BIGINT, -- Alterado para BIGINT
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     created_at BIGINT DEFAULT (UNIX_TIMESTAMP() * 1000),
