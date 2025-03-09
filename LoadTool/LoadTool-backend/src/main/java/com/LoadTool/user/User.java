@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name = "users")
@@ -25,6 +26,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // Marca o ID como somente leitura
     private Long id;
 
     @NotBlank(message = "O nome é obrigatório")
@@ -42,8 +44,10 @@ public class User {
     private String address;
 
     @Column(name = "created_at")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // Marca createdAt como somente leitura
     private Long createdAt;
 
     @Column(name = "deleted_at")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // Marca deletedAt como somente leitura
     private Long deletedAt;
 }

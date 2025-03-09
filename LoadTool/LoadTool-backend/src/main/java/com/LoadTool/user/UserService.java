@@ -1,4 +1,4 @@
-package com.LoadTool.user;
+	package com.LoadTool.user;
 
 import java.time.Instant;
 import java.util.List;
@@ -37,9 +37,32 @@ public class UserService {
     }
 
     // Salva um novo usuário
+    @Transactional
     public UserDTO saveUser(User user) {
-        user.setCreatedAt(Instant.now().toEpochMilli()); // Define a data de criação
+        if (userRepository.findByEmailAndNotDeleted(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("E-mail já está em uso.");
+        }
+        user.setCreatedAt(Instant.now().toEpochMilli());
         User savedUser = userRepository.save(user);
+        return UserDTO.fromEntity(savedUser);
+    }
+    
+    // Atualiza os dados
+    @Transactional
+    public UserDTO updateUser(Long id, User updatedUser) {
+        // Busca o usuário existente pelo ID
+        User existingUser = userRepository.findByIdAndNotDeleted(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        // Atualiza os campos permitidos
+        existingUser.setName(updatedUser.getName());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setPhone(updatedUser.getPhone());
+        existingUser.setAddress(updatedUser.getAddress());
+
+        // Salva o usuário atualizado
+        User savedUser = userRepository.save(existingUser);
         return UserDTO.fromEntity(savedUser);
     }
 

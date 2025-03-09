@@ -1,5 +1,4 @@
 com\LoadTool\user\UserSpecification.class
-com\LoadTool\util\HashUtil.class
 com\LoadTool\user\UserNotFoundException.class
 com\LoadTool\user\UserDTO.class
 com\LoadTool\auth\AuthService.class

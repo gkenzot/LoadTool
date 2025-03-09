@@ -19,16 +19,16 @@ CREATE TABLE users (
 
 -- Tabela `categories`
 CREATE TABLE categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Tabela `tools`
 CREATE TABLE tools (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    category_id INT,
+    category_id BIGINT,
     owner_id BIGINT,
     daily_price DECIMAL(10, 2) NOT NULL,
     available BOOLEAN DEFAULT TRUE,
@@ -40,9 +40,9 @@ CREATE TABLE tools (
 
 -- Tabela `rentals`
 CREATE TABLE rentals (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    tool_id INT,
-    renter_id BIGINT, -- Alterado para BIGINT
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    tool_id BIGINT,
+    renter_id BIGINT,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
@@ -54,10 +54,10 @@ CREATE TABLE rentals (
 
 -- Tabela `reviews`
 CREATE TABLE reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    rental_id INT,
-    reviewer_id BIGINT, -- Alterado para BIGINT
-    reviewed_id BIGINT, -- Alterado para BIGINT
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    rental_id BIGINT,
+    reviewer_id BIGINT,
+    reviewed_id BIGINT,
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     created_at BIGINT DEFAULT (UNIX_TIMESTAMP() * 1000),
@@ -68,8 +68,8 @@ CREATE TABLE reviews (
 
 -- Tabela `payments`
 CREATE TABLE payments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    rental_id INT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    rental_id BIGINT,
     amount DECIMAL(10, 2) NOT NULL,
     payment_method VARCHAR(50),
     status ENUM('pending', 'paid', 'failed') DEFAULT 'pending',
