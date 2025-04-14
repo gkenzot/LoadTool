@@ -1,5 +1,9 @@
 # Ignorar a pasta .metadata
 .metadata/
+.metadata
+
+# Ignorar vscode
+.vscode
 
 # Ignorar arquivos de log
 *.log
