@@ -16,7 +16,7 @@ public record ToolDTO(
     @Schema(example = "1") // Exemplo para o campo "category_id"
     Long category_id,
 
-    @Schema(example = "1") // Exemplo para o campo "owner_id"
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY , example = "1")
     Long owner_id,
 
     @Schema(example = "10.50") // Exemplo para o campo "dailyPrice"

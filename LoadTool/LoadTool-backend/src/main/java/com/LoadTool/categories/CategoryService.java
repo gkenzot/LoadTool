@@ -1,5 +1,6 @@
 package com.LoadTool.categories;
 
+import com.LoadTool.tools.ToolRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ToolRepository toolRepository; // Repositório de Tool
 
     // Retorna todas as categorias
     public List<CategoryDTO> getAllCategories() {
@@ -50,9 +52,15 @@ public class CategoryService {
     // Exclui uma categoria
     @Transactional
     public void deleteCategory(Long id) {
-        if (!categoryRepository.existsById(id)) {
-            throw new CategoryNotFoundException(id);
+        categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id));
+
+        // Verifica se existem ferramentas não deletadas associadas à categoria
+        boolean hasActiveTools = toolRepository.existsByCategoryIdAndNotDeleted(id);
+        if (hasActiveTools) {
+            throw new IllegalStateException("Não é possível excluir a categoria pois existem ferramentas ativas associadas a ela.");
         }
+
         categoryRepository.deleteById(id);
     }
 }

@@ -1,7 +1,7 @@
 package com.LoadTool.tools;
 
 import com.LoadTool.categories.Category;
-import com.LoadTool.user.User;
+import com.LoadTool.users.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;

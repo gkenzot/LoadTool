@@ -1,0 +1,26 @@
+@import url("reset.css");
+
+@import url("fragments/header.css");
+@import url("fragments/banner.css");
+@import url("fragments/sobre.css");
+@import url("fragments/destaques.css");
+@import url("fragments/footer.css");
+@import url("fragments/logo.css");
+@import url("fragments/links.css");
+@import url("fragments/body.css");
+@import url("fragments/fotos.css");
+@import url("fragments/parcerias.css");
+
+:root {
+
+  --fonte-principal: "Poppins";
+  --fonte-logo: "Rubik Mono One", monospace;
+  --bg-1: #282A36;
+  --bg-2: #7B0000;
+  --bg-2-grad: linear-gradient(135deg, #4D0A0A, #A10C0C);
+  --bg-3: #44475A;
+  --txt-color: #F8F8F2;
+  --txt-color-2: #F8F8F2;
+  --bg-1-dm: #282A36;
+
+}

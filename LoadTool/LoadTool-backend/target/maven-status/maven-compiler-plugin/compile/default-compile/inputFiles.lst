@@ -1,7 +1,18 @@
-C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\auth\AuthController.java
-C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\auth\AuthService.java
-C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\auth\LoginRequest.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\Category.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\CategoryController.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\CategoryDTO.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\CategoryNotFoundException.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\CategoryRepository.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\CategoryService.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\categories\CategorySpecification.java
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\LoadToolApplication.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\Tool.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\ToolController.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\ToolDTO.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\ToolNotFoundException.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\ToolRepository.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\ToolService.java
+C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\tools\ToolSpecification.java
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\user\User.java
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\user\UserController.java
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\user\UserDTO.java
@@ -9,4 +20,3 @@ C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\user\UserRepository.java
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\user\UserService.java
 C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\user\UserSpecification.java
-C:\Users\gkenz\Documents\Kenzo projetos\LoadTool\LoadTool-backend\src\main\java\com\LoadTool\util\MD5Util.java

@@ -24,4 +24,8 @@ public interface ToolRepository extends JpaRepository<Tool, Long> {
     // Busca ferramentas por proprietário, excluindo as deletadas
     @Query("SELECT t FROM Tool t WHERE t.owner.id = :ownerId AND t.deletedAt IS NULL")
     List<Tool> findByOwnerIdAndNotDeleted(@Param("ownerId") Long ownerId);
+
+    // Verifica se existem ferramentas não deletadas associadas a uma categoria
+    @Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM Tool t WHERE t.category.id = :categoryId AND t.deletedAt IS NULL")
+    boolean existsByCategoryIdAndNotDeleted(@Param("categoryId") Long categoryId);
 }
