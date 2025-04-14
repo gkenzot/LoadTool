@@ -6,7 +6,6 @@ import com.LoadTool.categories.CategoryRepository;
 import com.LoadTool.users.User;
 import com.LoadTool.users.UserNotFoundException;
 import com.LoadTool.users.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,77 +21,65 @@ public class ToolService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    // Retorna todas as ferramentas não deletadas
-    public List<ToolDTO> getAllTools() {
+    public List<ToolResponseDTO> getAllTools() {
         return toolRepository.findAllNotDeleted()
                 .stream()
-                .map(ToolDTO::fromEntity)
+                .map(ToolResponseDTO::fromEntity)
                 .toList();
     }
 
-    // Busca uma ferramenta por ID, lançando exceção se não encontrada
-    public ToolDTO getToolById(Long id) {
+    public ToolResponseDTO getToolById(Long id) {
         return toolRepository.findByIdAndNotDeleted(id)
-                .map(ToolDTO::fromEntity)
+                .map(ToolResponseDTO::fromEntity)
                 .orElseThrow(() -> new ToolNotFoundException(id));
     }
 
-    // Salva uma nova ferramenta
-    public ToolDTO saveTool(Tool tool) {
-        // Valida se a categoria existe
-        Category category = categoryRepository.findById(tool.getCategory().getId())
-                .orElseThrow(() -> new CategoryNotFoundException(tool.getCategory().getId()));
-
-        // Valida se o proprietário existe
-        User owner = userRepository.findById(tool.getOwner().getId())
-                .orElseThrow(() -> new UserNotFoundException(tool.getOwner().getId()));
-
-        // Associa a categoria e o proprietário à ferramenta
-        tool.setCategory(category);
-        tool.setOwner(owner);
-
-        // Salva a ferramenta
-        Tool savedTool = toolRepository.save(tool);
-        return ToolDTO.fromEntity(savedTool);
-    }
-    
-    // Atualiza a ferramenta existente
     @Transactional
-    public ToolDTO updateTool(Long id, Tool updatedTool) {
-        // Busca a ferramenta existente pelo ID
-        Tool existingTool = toolRepository.findByIdAndNotDeleted(id)
+    public ToolResponseDTO createTool(ToolRequestDTO request) {
+        Category category = categoryRepository.findById(request.category_id())
+                .orElseThrow(() -> new CategoryNotFoundException(request.category_id()));
+
+        User owner = userRepository.findByIdAndNotDeleted(request.owner_id())
+                .orElseThrow(() -> new UserNotFoundException(request.owner_id()));
+
+        Tool tool = request.toEntity(category, owner);
+        tool.setCreatedAt(Instant.now().toEpochMilli());
+        tool.setAvailable(true);
+
+        Tool savedTool = toolRepository.save(tool);
+        return ToolResponseDTO.fromEntity(savedTool);
+    }
+
+    @Transactional
+    public ToolResponseDTO updateTool(Long id, ToolRequestDTO request) {
+        Tool tool = toolRepository.findByIdAndNotDeleted(id)
                 .orElseThrow(() -> new ToolNotFoundException(id));
 
-        // Atualiza os campos permitidos
-        existingTool.setName(updatedTool.getName());
-        existingTool.setDescription(updatedTool.getDescription());
-        existingTool.setDailyPrice(updatedTool.getDailyPrice());
-
-        // Valida e atualiza a categoria, se fornecida
-        if (updatedTool.getCategory() != null) {
-            Category category = categoryRepository.findById(updatedTool.getCategory().getId())
-                    .orElseThrow(() -> new CategoryNotFoundException(updatedTool.getCategory().getId()));
-            existingTool.setCategory(category);
+        Category currentCategory = tool.getCategory();
+        if (!currentCategory.getId().equals(request.category_id())) {
+            Category newCategory = categoryRepository.findById(request.category_id())
+                    .orElseThrow(() -> new CategoryNotFoundException(request.category_id()));
+            request.updateEntity(tool, newCategory);
+        } else {
+            request.updateEntity(tool, currentCategory);
         }
 
-        // Valida e atualiza o proprietário, se fornecido
-//        if (updatedTool.getOwner() != null) {
-//            User owner = userRepository.findById(updatedTool.getOwner().getId())
-//                    .orElseThrow(() -> new UserNotFoundException(updatedTool.getOwner().getId()));
-//            existingTool.setOwner(owner);
-//        }
-
-        // Salva a ferramenta atualizada
-        Tool savedTool = toolRepository.save(existingTool);
-        return ToolDTO.fromEntity(savedTool);
+        Tool updatedTool = toolRepository.save(tool);
+        return ToolResponseDTO.fromEntity(updatedTool);
     }
 
-    // Soft delete: marca a ferramenta como deletada
     @Transactional
     public void deleteTool(Long id) {
         Tool tool = toolRepository.findByIdAndNotDeleted(id)
                 .orElseThrow(() -> new ToolNotFoundException(id));
-        tool.setDeletedAt(Instant.now().toEpochMilli()); // Define a data de exclusão
+        tool.setDeletedAt(Instant.now().toEpochMilli());
         toolRepository.save(tool);
+    }
+
+    public List<ToolResponseDTO> getToolsByCategory(Long categoryId) {
+        return toolRepository.findByCategoryIdAndNotDeleted(categoryId)
+                .stream()
+                .map(ToolResponseDTO::fromEntity)
+                .toList();
     }
 }

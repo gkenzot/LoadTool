@@ -19,27 +19,32 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        UserDTO userDTO = userService.getUserById(id);
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+        UserResponseDTO userDTO = userService.getUserById(id);
         return ResponseEntity.ok(userDTO);
     }
     
+    // Criar usuário (POST)
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user) {
-        UserDTO savedUserDTO = userService.saveUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserDTO);
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO request) {
+        UserResponseDTO response = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
+    // Atualizar usuário (PUT)
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody User updatedUser) {
-        UserDTO updatedUserDTO = userService.updateUser(id, updatedUser);
-        return ResponseEntity.ok(updatedUserDTO);
+    public ResponseEntity<UserResponseDTO> updateUser(
+        @PathVariable Long id,
+        @Valid @RequestBody UserRequestDTO request
+    ) {
+        UserResponseDTO response = userService.updateUser(id, request);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

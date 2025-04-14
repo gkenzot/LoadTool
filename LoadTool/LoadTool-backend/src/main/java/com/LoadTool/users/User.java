@@ -13,6 +13,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
@@ -44,10 +48,16 @@ public class User {
     private String address;
 
     @Column(name = "created_at")
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // Marca createdAt como somente leitura
+    // @CreatedDate
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long createdAt;
+    
+    // @Column(name = "created_at")
+    // @LastModifiedDate
+    // @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    // private Long updatedAt;
 
     @Column(name = "deleted_at")
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // Marca deletedAt como somente leitura
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long deletedAt;
 }

@@ -1,100 +1,54 @@
 package com.LoadTool.tools;
 
-import com.LoadTool.categories.Category;
-import com.LoadTool.categories.CategoryNotFoundException;
-import com.LoadTool.categories.CategoryRepository;
-import com.LoadTool.users.User;
-import com.LoadTool.users.UserNotFoundException;
-import com.LoadTool.users.UserRepository;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-
-import java.time.Instant;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tools")
 public class ToolController {
 
     private final ToolService toolService;
-    private final CategoryRepository categoryRepository; // Injetado
-    private final UserRepository userRepository; // Injetado
 
-    // Construtor para injeção de dependência
-    public ToolController(
-            ToolService toolService,
-            CategoryRepository categoryRepository,
-            UserRepository userRepository
-    ) {
+    public ToolController(ToolService toolService) {
         this.toolService = toolService;
-        this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
     }
 
     @GetMapping
-    public ResponseEntity<List<ToolDTO>> getAllTools() {
-        List<ToolDTO> tools = toolService.getAllTools();
+    public ResponseEntity<List<ToolResponseDTO>> getAllTools() {
+        List<ToolResponseDTO> tools = toolService.getAllTools();
         return ResponseEntity.ok(tools);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ToolDTO> getToolById(@PathVariable Long id) {
-        ToolDTO toolDTO = toolService.getToolById(id);
+    public ResponseEntity<ToolResponseDTO> getToolById(@PathVariable Long id) {
+        ToolResponseDTO toolDTO = toolService.getToolById(id);
         return ResponseEntity.ok(toolDTO);
     }
 
     @PostMapping
-    public ResponseEntity<ToolDTO> createTool(@Valid @RequestBody ToolDTO toolDTO) {
-        Tool tool = new Tool();
-        tool.setName(toolDTO.name());
-        tool.setDescription(toolDTO.description());
-        tool.setDailyPrice(toolDTO.dailyPrice());
-        tool.setCreatedAt(Instant.now().toEpochMilli());
-
-        // Busca a categoria e o proprietário pelos IDs fornecidos
-        Category category = categoryRepository.findById(toolDTO.category_id())
-                .orElseThrow(() -> new CategoryNotFoundException(toolDTO.category_id()));
-        User owner = userRepository.findById(toolDTO.owner_id())
-                .orElseThrow(() -> new UserNotFoundException(toolDTO.owner_id()));
-
-        tool.setCategory(category);
-        tool.setOwner(owner);
-
-        // O ID será gerado automaticamente pelo banco de dados
-        ToolDTO savedToolDTO = toolService.saveTool(tool);
+    public ResponseEntity<ToolResponseDTO> createTool(@Valid @RequestBody ToolRequestDTO toolDTO) {
+        ToolResponseDTO savedToolDTO = toolService.createTool(toolDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedToolDTO);
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<ToolDTO> updateTool(
+    public ResponseEntity<ToolResponseDTO> updateTool(
             @PathVariable Long id,
-            @Valid @RequestBody ToolDTO updatedToolDTO
+            @Valid @RequestBody ToolRequestDTO updatedToolDTO
     ) {
-        // Converte o DTO para a entidade Tool
-        Tool updatedTool = new Tool();
-        updatedTool.setName(updatedToolDTO.name());
-        updatedTool.setDescription(updatedToolDTO.description());
-        updatedTool.setDailyPrice(updatedToolDTO.dailyPrice());
-
-        // Define a categoria e o proprietário, se fornecidos
-        if (updatedToolDTO.category_id() != null) {
-            Category category = categoryRepository.findById(updatedToolDTO.category_id())
-                    .orElseThrow(() -> new CategoryNotFoundException(updatedToolDTO.category_id()));
-            updatedTool.setCategory(category);
-        }
-
-//        if (updatedToolDTO.owner_id() != null) {
-//            User owner = userRepository.findById(updatedToolDTO.owner_id())
-//                    .orElseThrow(() -> new UserNotFoundException(updatedToolDTO.owner_id()));
-//            updatedTool.setOwner(owner);
-//        }
-
-        // Chama o serviço para atualizar a ferramenta
-        ToolDTO savedToolDTO = toolService.updateTool(id, updatedTool);
+        ToolResponseDTO savedToolDTO = toolService.updateTool(id, updatedToolDTO);
         return ResponseEntity.ok(savedToolDTO);
     }
 

@@ -2,10 +2,9 @@ package com.LoadTool;
 
 import com.LoadTool.categories.CategoryDTO;
 import com.LoadTool.categories.CategoryService;
-import com.LoadTool.tools.ToolDTO;
+import com.LoadTool.tools.ToolRequestDTO;
 import com.LoadTool.tools.ToolService;
 import com.LoadTool.users.User;
-import com.LoadTool.users.UserDTO;
 import com.LoadTool.users.UserService;
 
 import java.math.BigDecimal;
@@ -73,23 +72,25 @@ public class LoadToolController {
 
     @GetMapping("/tools/new")
     public String showToolForm(Model model) {
-        // Cria um novo ToolDTO com valores padrão
-        ToolDTO toolDTO = new ToolDTO(
-            null,       // id
-            "",         // name
-            "",         // description
-            null,       // category_id
-            null,       // owner_id
-            BigDecimal.ZERO,  // dailyPrice
-            true,       // available (valor padrão para novas ferramentas)
-            null        // createdAt
+        // Cria um novo ToolRequestDTO com valores padrão
+        ToolRequestDTO toolRequestDTO = new ToolRequestDTO(
+            "",                 // name
+            "",                 // description
+            null,               // category_id
+            null,               // owner_id
+            BigDecimal.ZERO     // dailyPrice
         );
         
-        model.addAttribute("tool", toolDTO);
+        // Adiciona o DTO ao modelo para ser utilizado no formulário
+        model.addAttribute("tool", toolRequestDTO);
+        
+        // Adiciona as listas de categorias e usuários ao modelo
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("users", userService.getAllUsers());
+        
         return "tools/form";
     }
+
 
     @GetMapping("/tools/{id}")
     public String viewTool(@PathVariable Long id, Model model) {
