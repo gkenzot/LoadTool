@@ -17,28 +17,24 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    // Retorna todas as categorias
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
         List<CategoryDTO> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
 
-    // Retorna uma categoria por ID
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
         CategoryDTO categoryDTO = categoryService.getCategoryById(id);
         return ResponseEntity.ok(categoryDTO);
     }
 
-    // Cria uma nova categoria
     @PostMapping
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategoryDTO);
     }
 
-    // Atualiza uma categoria existente
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDTO> updateCategory(
             @PathVariable Long id,
@@ -48,7 +44,6 @@ public class CategoryController {
         return ResponseEntity.ok(updatedCategoryDTO);
     }
 
-    // Exclui uma categoria
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);

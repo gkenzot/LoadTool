@@ -1,55 +1,75 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="pt-br"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/js/scripts.js"></script>
-  	<title>Load Tool - Usuários</title>
+    <link
+      rel="stylesheet"
+      href="/css/styles.css"
+      th:href="@{/css/styles.css}"
+    />
+    <title>Load Tool - Usuários</title>
   </head>
 
   <body id="body" class="d-flex flex-column min-vh-100">
-  <header th:replace="~{fragments/header :: header}"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-  <main role="main" class="flex-grow-1 dark-mode-bg1">
-    <div class="container py-3">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Listagem de Usuários</h3>
-        <a th:href="@{/users/new}" class="btn btn-primary text-white">Adicionar Novo Usuário</a>
-      </div>
+    <main role="main" class="flex-grow-1 dark-mode-bg1">
+      <div class="container py-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3>Listagem de Usuários</h3>
+          <a th:href="@{/users/new}" class="btn btn-primary text-white"
+            >Adicionar Novo Usuário</a
+          >
+        </div>
 
-      <table class="table">
-        <thead>
+        <table class="table">
+          <thead>
             <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Ações</th>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Ações</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td>
-                    <a th:href="@{/users/view/{id}(id=${user.id})}" class="btn btn-info">Ver</a>
-                    <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning">Editar</a>
-                </td>
+              <td th:text="${user.id}"></td>
+              <td th:text="${user.name}"></td>
+              <td th:text="${user.email}"></td>
+              <td th:text="${user.phone}"></td>
+              <td>
+                <a
+                  th:href="@{/users/view/{id}(id=${user.id})}"
+                  class="btn btn-sm btn-info"
+                  >Ver</a
+                >
+                <a
+                  th:href="@{/users/edit/{id}(id=${user.id})}"
+                  class="btn btn-sm btn-warning"
+                  >Editar</a
+                >
+              </td>
             </tr>
-        </tbody>
-    </table>
+          </tbody>
+        </table>
 
-      <div class="row">
-        <div class="col-md-4 mb-3 mt-3">
-          <a type="button" class="btn btn-lg btn-block btn-secondary text-white" th:href="@{/}">Voltar</a>
+        <div class="row">
+          <div class="col-md-4 mb-3 mt-3">
+            <a type="button" class="btn btn-outline-secondary" th:href="@{/}"
+              >Voltar</a
+            >
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
-
-</body>
-
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+  </body>
 </html>

@@ -1,10 +1,10 @@
-@import url("reset.css");
+/* @import url("reset.css"); */
 
 :root {
 
-  --fonte-principal: "Poppins";
-  --fonte-logo: "Rubik Mono One", monospace;
-  --bg-1: #e4e4e4;
+  /* --fonte-principal: "Poppins";
+  --fonte-logo: "Rubik Mono One", monospace; */
+  --bg-1: #ffffff;
   --bg-2: #7B0000;
   --bg-2-grad: linear-gradient(135deg, #4D0A0A, #A10C0C);
   --bg-3: #d4d4d4;
@@ -12,4 +12,9 @@
   --txt-color-2: #F8F8F2;
   --bg-1-dm: #282A36;
 
+}
+
+main {
+  background-color: var(--bg-1);
+  color: var(--txt-color);
 }

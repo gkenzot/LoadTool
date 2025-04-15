@@ -5,22 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
     <script src="/js/scripts.js"></script>
-  	<title>Load Tool - </title>
+    <title th:text="*{id} != null ? 'Load Tool - Editar' : 'Load Tool - Nova'">Load Tool</title>
   </head>
 
   <body id="body" class="d-flex flex-column min-vh-100">
-  <header th:replace="~{fragments/header :: header}"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-  <main role="main" class="flex-grow-1 dark-mode-bg1">
+    <main role="main" class="flex-grow-1 dark-mode-bg1">
+      <section class="container py-5">
+        <h2 class="mb-4">Formulário</h2>
+
+        <form th:action="@{/tools/new}" th:object="${tool}" method="post">
+          <input type="hidden" th:if="${toolId}" th:name="toolId" th:value="${toolId}" />
     
-
-
-
+          <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required />
+          </div>
     
-  </main>
+          <div class="mb-3">
+            <label for="description" class="form-label">Descrição</label>
+            <textarea id="description" th:field="*{description}" class="form-control" rows="3"></textarea>
+          </div>
+    
+          <div class="mb-3">
+            <label for="category_id" class="form-label">Categoria</label>
+            <select id="category_id" th:field="*{category_id}" class="form-select">
+              <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}">Categoria</option>
+            </select>
+          </div>
+    
+          <div class="mb-3">
+            <label for="owner_id" class="form-label">Usuário Responsável</label>
+            <select id="owner_id" th:field="*{owner_id}" class="form-select">
+              <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}">Usuário</option>
+            </select>
+          </div>
+    
+          <div class="mb-3">
+            <label for="dailyPrice" class="form-label">Preço Diário (R$)</label>
+            <input type="number" id="dailyPrice" th:field="*{dailyPrice}" class="form-control" min="0" step="0.01" />
+          </div>
+    
+          <!-- <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="/tools" class="btn btn-secondary">Cancelar</a>
+          </div> -->
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
+          <div class="col-md-12 mb-3 mt-3">
+            <a th:href="@{/tools}" class="btn btn-outline-secondary"
+              >Voltar</a
+            >
+            <input
+              type="submit"
+              class="btn btn-block btn-primary text-white"
+              value="Salvar"
+            />
 
-</body>
+            <a
+              th:href="@{/tools/delete/{id}(id=*{id})}"
+              class="btn btn-block btn-danger text-white"
+              onclick="return confirm('Tem certeza que deseja excluir esta ferramenta?');"
+              >Excluir</a
+            >
+          </div>
 
+        </form>
+
+      </section>
+    </main>    
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+  </body>
 </html>

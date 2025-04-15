@@ -1,51 +1,92 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="pt-br"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/js/scripts.js"></script>
-  <title>Load Tool - Detalhes do Usuário</title>
-</head>
+    <link
+      rel="stylesheet"
+      href="/css/styles.css"
+      th:href="@{/css/styles.css}"
+    />
+    <title>Load Tool - Detalhes do Usuário</title>
+  </head>
 
-<body id="body" class="d-flex flex-column min-vh-100">
-  <header th:replace="~{fragments/header :: header}"></header>
-  
-  <main role="main" class="flex-grow-1 dark-mode-bg1">
-	<div class="row justify-content-center">
-	        <div class="col-lg-8">
-	          <div class="card dark-mode-bg2 border-light shadow">
-	            <div class="card-header bg-primary text-white">
-	              <h4 class="mb-0">Detalhes do Usuário</h4>
-	            </div>
-	            <div class="card-body">
+  <body id="body" class="d-flex flex-column min-vh-100">
+    <header th:replace="~{fragments/header :: header}"></header>
 
-	              <dl class="row">
-	                <dt class="col-sm-4">Nome completo</dt>
-	                <dd class="col-sm-8" th:text="${user.name}">Nome</dd>
+    <main role="main" class="flex-grow-1 dark-mode-bg1">
+      <div class="container py-3">
+        <div class="row">
+          <div class="col-lg-12">
+            <h3 class="mb-3">Detalhes do Usuário</h3>
 
-	                <dt class="col-sm-4">E-mail</dt>
-	                <dd class="col-sm-8" th:text="${user.email}">email@exemplo.com</dd>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label>Nome completo</label>
+                <input
+                  type="text"
+                  class="form-control dark-mode-bg2"
+                  th:value="${user.name}"
+                  readonly
+                />
+              </div>
 
-	                <dt class="col-sm-4">Telefone</dt>
-	                <dd class="col-sm-8" th:text="${user.phone}">(00) 00000-0000</dd>
+              <div class="col-md-6 mb-3">
+                <label>E-mail</label>
+                <input
+                  type="email"
+                  class="form-control dark-mode-bg2"
+                  th:value="${user.email}"
+                  readonly
+                />
+              </div>
 
-	                <dt class="col-sm-4">Endereço</dt>
-	                <dd class="col-sm-8" th:text="${user.address}">Rua Exemplo, 123</dd>
-	              </dl>
+              <div class="col-md-6 mb-3">
+                <label>Telefone</label>
+                <input
+                  type="tel"
+                  class="form-control dark-mode-bg2"
+                  th:value="${user.phone}"
+                  readonly
+                />
+              </div>
 
-	              <div class="mt-4 d-flex justify-content-end gap-2">
-	                <a th:href="@{/users}" class="btn btn-outline-secondary">Voltar</a>
-	                <a th:href="@{'/users/edit/' + ${user.id}}" class="btn btn-warning">Editar</a>
-	              </div>
+              <div class="col-md-6 mb-3">
+                <label>Endereço</label>
+                <input
+                  type="text"
+                  class="form-control dark-mode-bg2"
+                  th:value="${user.address}"
+                  readonly
+                />
+              </div>
+            </div>
 
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-  </main>
+            <div class="d-flex gap-2 mt-4">
+              <a th:href="@{/users}" class="btn btn-outline-secondary"
+                >Voltar</a
+              >
+              <a
+                th:href="@{'/users/edit/' + ${user.id}}"
+                class="btn btn-warning"
+                >Editar</a
+              >
+              <a
+                th:href="@{'/users/delete/' + ${user.id}}"
+                class="btn btn-danger text-white"
+                >Excluir</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
-</body>
-
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+  </body>
 </html>

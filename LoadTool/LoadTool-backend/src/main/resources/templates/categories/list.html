@@ -1,26 +1,142 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="pt-br"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="/css/styles.css"
+      th:href="@{/css/styles.css}"
+    />
     <script src="/js/scripts.js"></script>
-  	<title>Load Tool - </title>
+    <title>Load Tool - Categorias</title>
   </head>
 
   <body id="body" class="d-flex flex-column min-vh-100">
-  <header th:replace="~{fragments/header :: header}"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-  <main role="main" class="flex-grow-1 dark-mode-bg1">
-    
+    <main role="main" class="flex-grow-1 dark-mode-bg1">
+      <div class="container py-3">
+        <!-- Título e botão de novo -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3>Listagem de Categorias</h3>
+          <a
+            href="#"
+            class="btn btn-primary text-white"
+            onclick="mostrarFormulario(null)"
+            >Adicionar Nova Categoria</a
+          >
+        </div>
 
+        <!-- Formulário (inicialmente escondido) -->
+        <div class="card mb-4" id="formularioCategoria" style="display: none">
+          <div class="card-body">
+            <form
+              id="categoriaForm"
+              th:action="@{/categories}"
+              th:object="${category}"
+              method="post"
+            >
+              <input type="hidden" id="categoriaId" th:field="*{id}" />
 
+              <div class="form-group">
+                <label for="name">Nome da Categoria</label>
+                <input
+                  type="text"
+                  id="name"
+                  th:field="*{name}"
+                  class="form-control"
+                  placeholder="Digite o nome da categoria"
+                  required
+                />
+              </div>
 
-    
-  </main>
+              <button type="submit" class="btn btn-success mt-3">Salvar</button>
+              <button
+                type="button"
+                class="btn btn-secondary mt-3 ms-2"
+                onclick="fecharFormulario()"
+              >
+                Cancelar
+              </button>
+            </form>
+          </div>
+        </div>
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
+        <!-- Tabela de categorias -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="category : ${categories}">
+              <td th:text="${category.id}"></td>
+              <td th:text="${category.name}"></td>
+              <td>
+                <a
+                  href="#"
+                  class="btn btn-sm btn-warning"
+                  th:attr="data-id=${category.id}, data-name=${category.name}"
+                  onclick="editarComDataset(this)"
+                >
+                  Editar
+                </a>
 
-</body>
+                <a
+                  th:href="@{/categories/delete/{id}(id=${category.id})}"
+                  class="btn btn-sm btn-danger"
+                  onclick="return confirm('Tem certeza que deseja deletar esta categoria?');"
+                  >Excluir</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
+        <!-- Botão Voltar -->
+        <div class="row">
+          <div class="col-md-4 mb-3 mt-3">
+            <a type="button" class="btn btn-outline-secondary" th:href="@{/}"
+              >Voltar</a
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+  </body>
+
+  <script>
+    function editarComDataset(element) {
+      const id = element.dataset.id;
+      const name = element.dataset.name;
+      mostrarFormulario(id, name);
+    }
+
+    function mostrarFormulario(id = "", name = "") {
+      const formDiv = document.getElementById("formularioCategoria");
+      const inputId = document.getElementById("categoriaId");
+      const inputName = document.getElementById("name");
+
+      formDiv.style.display = "block";
+      inputId.value = id;
+      inputName.value = name;
+    }
+
+    function fecharFormulario() {
+      const formDiv = document.getElementById("formularioCategoria");
+      const form = document.getElementById("categoriaForm");
+      form.reset();
+      formDiv.style.display = "none";
+    }
+  </script>
 </html>

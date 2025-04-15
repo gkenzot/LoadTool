@@ -5,22 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
     <script src="/js/scripts.js"></script>
-  	<title>Load Tool - </title>
+    <title>Load Tool - Ferramentas</title>
   </head>
 
   <body id="body" class="d-flex flex-column min-vh-100">
-  <header th:replace="~{fragments/header :: header}"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-  <main role="main" class="flex-grow-1 dark-mode-bg1">
-    
+    <main role="main" class="flex-grow-1 dark-mode-bg1">
+      <div class="container py-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3>Listagem de Ferramentas</h3>
+          <a th:href="@{/tools/new}" class="btn btn-primary text-white">Adicionar Nova Ferramenta</a>
+        </div>
 
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Proprietário</th>
+              <th>Preço Diário</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="tool : ${tools}">
+              <td th:text="${tool.id}"></td>
+              <td th:text="${tool.name}"></td>
+              <td th:text="${tool.description}"></td>
+              <td th:text="${tool.categoryName} ?: 'Sem categoria'"></td>
+              <td th:text="${tool.ownerName} ?: 'Sem proprietário'"></td>
+              <td th:text="${#numbers.formatDecimal(tool.dailyPrice, 1, 'POINT', 2, 'COMMA')}"></td>
+              <td>
+                <!-- <a th:href="@{/tools/view/{id}(id=${tool.id})}" class="btn btn-info btn-sm">Ver</a> -->
+                <a th:href="@{/tools/edit/{id}(id=${tool.id})}" class="btn btn-warning btn-sm">Editar</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
+        <div class="row">
+          <div class="col-md-4 mb-3 mt-3">
+            <a type="button" class="btn btn-outline-secondary" th:href="@{/}">Voltar</a>
+          </div>
+        </div>
+      </div>
+    </main>
 
-    
-  </main>
-
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
-
-</body>
-
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+  </body>
 </html>

@@ -1,82 +1,106 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="pt-br"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/js/scripts.js"></script>
+    <link
+      rel="stylesheet"
+      href="/css/styles.css"
+      th:href="@{/css/styles.css}"
+      id="themeStylesheet"
+    />
 
-<head>
-  <!-- Meta tags Obrigatórias -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- CSS estático -->
-  <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}">
-  <!-- Scripts importados -->
-  <script src="/js/scripts.js"></script>
+    <title>Load Tool</title>
+  </head>
 
-  <title>Load Tool</title>
-</head>
+  <body id="body" class="d-flex flex-column min-vh-100">
+    <header th:replace="~{fragments/header :: header}"></header>
 
-<body id="body" class="d-flex flex-column min-vh-100">
-  <header th:replace="~{fragments/header :: header}"></header>
-  <!-- Conteúdo da página -->
-  <main role="main" class="flex-grow-1 dark-mode-bg1">
-    <div class="container py-3">
-      <div class="p-5 mb-4 dark-mode-bg2 rounded-3">
-        <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold">Load Tool Manager</h1>
-          <p class="col-md-8 fs-4">Sistema de gerenciamento de ferramentas, usuários e categorias</p>
+    <main role="main" class="flex-grow-1 dark-mode-bg1">
+      <div class="container py-3">
+        <div class="p-5 mb-4 dark-mode-bg2 rounded-3">
+          <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Load Tool Manager</h1>
+            <p class="col-md-8 fs-4">
+              Sistema de gerenciamento de ferramentas, usuários e categorias
+            </p>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm dark-mode-bg2">
+              <div class="card-header py-3">
+                <h4 class="my-0 font-normal">Users</h4>
+              </div>
+              <div class="card-body">
+                <h4
+                  class="card-title pricing-card-title"
+                  th:text="${userCount ?: '-'}"
+                ></h4>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>Gerencie usuários</li>
+                  <li>Cadastre novos</li>
+                </ul>
+                <a th:href="@{/users}" class="btn btn-lg btn-primary text-white"
+                  >Users</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm dark-mode-bg2">
+              <div class="card-header py-3">
+                <h4 class="my-0 font-normal">Tools</h4>
+              </div>
+              <div class="card-body">
+                <h4
+                  class="card-title pricing-card-title"
+                  th:text="${toolCount ?: '-'}"
+                ></h4>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>Gerencie ferramentas</li>
+                  <li>Cadastre novas</li>
+                </ul>
+                <a th:href="@{/tools}" class="btn btn-lg btn-primary text-white"
+                  >Tools</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm dark-mode-bg2">
+              <div class="card-header py-3">
+                <h4 class="my-0 font-normal">Categories</h4>
+              </div>
+              <div class="card-body">
+                <h4
+                  class="card-title pricing-card-title"
+                  th:text="${categoryCount ?: '-'}"
+                ></h4>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>Gerencie categorias</li>
+                  <li>Cadastre novas</li>
+                </ul>
+                <a
+                  th:href="@{/categories}"
+                  class="btn btn-lg btn-primary text-white"
+                  >Categories</a
+                >
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </main>
 
-      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        <div class="col">
-          <div class="card mb-4 rounded-3 shadow-sm dark-mode-bg2">
-            <div class="card-header py-3">
-              <h4 class="my-0 font-normal">Users</h4>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title pricing-card-title" th:text="${userCount ?: '-'}"></h4>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Gerencie usuários</li>
-                <li>Cadastre novos</li>
-              </ul>
-              <a th:href="@{/users}" class="btn btn-lg btn-primary text-white">Users</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-4 rounded-3 shadow-sm dark-mode-bg2">
-            <div class="card-header py-3">
-              <h4 class="my-0 font-normal">Tools</h4>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title pricing-card-title" th:text="${toolCount ?: '-'}"></h4>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Gerencie ferramentas</li>
-                <li>Cadastre novas</li>
-              </ul>
-              <a th:href="@{/tools}" class="btn btn-lg btn-primary text-white">Tools</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-4 rounded-3 shadow-sm dark-mode-bg2">
-            <div class="card-header py-3">
-              <h4 class="my-0 font-normal">Categories</h4>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title pricing-card-title" th:text="${categoryCount ?: '-'}"></h4>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Gerencie categorias</li>
-                <li>Cadastre novas</li>
-              </ul>
-              <a th:href="@{/categories}" class="btn btn-lg btn-primary text-white">Categories</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
-
-</body>
-
+    <script src="/js/darkmode.js"></script>
+  </body>
 </html>

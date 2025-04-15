@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -109,26 +110,15 @@ public class LoadToolController {
 	}
 
 	@GetMapping("/tools/new")
-	public String showToolForm(Model model) {
-		// Cria um novo ToolRequestDTO com valores padrão
-		ToolRequestDTO toolRequestDTO = new ToolRequestDTO("", // name
-				"", // description
-				null, // category_id
-				null, // owner_id
-				BigDecimal.ZERO // dailyPrice
-		);
-
-		// Adiciona o DTO ao modelo para ser utilizado no formulário
-		model.addAttribute("tool", toolRequestDTO);
-
-		// Adiciona as listas de categorias e usuários ao modelo
-		model.addAttribute("categories", categoryService.getAllCategories());
-		model.addAttribute("users", userService.getAllUsers());
-
-		return "tools/form";
+	public String newToolForm(Model model) {
+	    model.addAttribute("tool", new ToolRequestDTO("", "", null, null, BigDecimal.ZERO));
+	    model.addAttribute("categories", categoryService.getAllCategories());
+	    model.addAttribute("users", userService.getAllUsers());
+	    return "tools/form";
 	}
 
-	@GetMapping("/tools/{id}")
+
+	@GetMapping("/tools/view/{id}")
 	public String viewTool(@PathVariable Long id, Model model) {
 		model.addAttribute("tool", toolService.getToolById(id));
 		return "tools/view";
@@ -141,21 +131,89 @@ public class LoadToolController {
 		model.addAttribute("users", userService.getAllUsers());
 		return "tools/form";
 	}
+	
+	@PostMapping("/tools/new")
+	public String createTool(@Valid @ModelAttribute("tool") ToolRequestDTO toolDTO,
+	                         @RequestParam(required = false) Long toolId,
+	                         BindingResult result,
+	                         Model model) {
+	    if (result.hasErrors()) {
+	        // Se houver erros, retorne o formulário de tools com os erros
+	        model.addAttribute("categories", categoryService.getAllCategories());
+	        model.addAttribute("users", userService.getAllUsers());
+	        return "tools/form";
+	    }
 
+	    if (toolId != null) {
+	        // Se houver um ID de ferramenta, atualize a ferramenta existente
+	        toolService.updateTool(toolId, toolDTO);
+	    } else {
+	        // Caso contrário, crie uma nova ferramenta
+	        toolService.createTool(toolDTO);
+	    }
+
+	    // Redireciona para a lista de ferramentas após a criação/atualização
+	    return "redirect:/tools";
+	}
+	
+	@GetMapping("/tools/delete/{id}")
+	public String deleteTool(@PathVariable Long id) {
+	    toolService.deleteTool(id);
+	    return "redirect:/tools";
+	}
+
+	
 	// --- Categories ---
 	@GetMapping("/categories")
-	public String listCategories(Model model) {
-		model.addAttribute("categories", categoryService.getAllCategories());
-		return "categories/list";
+	public String listCategories(
+	        @RequestParam(required = false) Long editId,
+	        Model model) {
+	    
+	    model.addAttribute("categories", categoryService.getAllCategories());
+
+	    if (editId != null) {
+	        model.addAttribute("category", categoryService.getCategoryById(editId));
+	    } else {
+	        model.addAttribute("category", new CategoryDTO(null, ""));
+	    }
+
+	    return "categories/list";
 	}
 
 	@GetMapping("/categories/new")
 	public String showCategoryForm(Model model) {
-		model.addAttribute("category", new CategoryDTO(null, ""));
+	    model.addAttribute("category", new CategoryDTO(null, ""));
+	    return "categories/form";
+	}
+
+	@PostMapping("/categories")
+	public String createOrUpdateCategory(
+	        @Valid @ModelAttribute("category") CategoryDTO categoryDTO,
+	        BindingResult result,
+	        Model model) {
+	    
+	    if (result.hasErrors()) {
+	        model.addAttribute("categories", categoryService.getAllCategories());
+	        return "categories/list";
+	    }
+
+	    if (categoryDTO.id() != null) {
+	        categoryService.updateCategory(categoryDTO.id(), categoryDTO);
+	    } else {
+	        categoryService.createCategory(categoryDTO);
+	    }
+
+	    return "redirect:/categories";
+	}
+
+	
+	@GetMapping("/categories/edit/{id}")
+	public String editCategory(@PathVariable Long id, Model model) {
+		model.addAttribute("category", categoryService.getCategoryById(id));
 		return "categories/form";
 	}
 
-	@GetMapping("/categories/{id}")
+	@GetMapping("/categories/view/{id}")
 	public String viewCategory(@PathVariable Long id, Model model) {
 		CategoryDTO category = categoryService.getCategoryById(id);
 		model.addAttribute("category", category);
@@ -163,10 +221,16 @@ public class LoadToolController {
 				.filter(t -> t.category_id() != null && t.category_id().equals(id)).toList());
 		return "categories/view";
 	}
-
-	@GetMapping("/categories/edit/{id}")
-	public String editCategory(@PathVariable Long id, Model model) {
-		model.addAttribute("category", categoryService.getCategoryById(id));
-		return "categories/form";
+	
+	@GetMapping("/categories/delete/{id}")
+	public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	    try {
+	        categoryService.deleteCategory(id);
+	        redirectAttributes.addFlashAttribute("success", "Categoria excluída com sucesso!");
+	    } catch (RuntimeException ex) {
+	        redirectAttributes.addFlashAttribute("error", ex.getMessage());
+	    }
+	    return "redirect:/categories";
 	}
+
 }
