@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}"/>
+    <script src="/js/scripts.js"></script>
+  	<title>Load Tool - Usuários</title>
+  </head>
 
-<head>
-  <!-- Meta tags Obrigatórias -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- CSS estático -->
-  <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}">
-  <!-- Scripts importados -->
-  <script src="/js/scripts.js"></script>
-
-  <title>Load Tool - Usuários</title>
-</head>
-
-<body id="body" class="d-flex flex-column min-vh-100">
+  <body id="body" class="d-flex flex-column min-vh-100">
   <header th:replace="~{fragments/header :: header}"></header>
-  <!-- Conteúdo da página -->
+
   <main role="main" class="flex-grow-1 dark-mode-bg1">
     <div class="container py-3">
       <div class="d-flex justify-content-between align-items-center mb-3">
@@ -38,7 +33,7 @@
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.email}"></td>
                 <td>
-                    <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-info">Ver</a>
+                    <a th:href="@{/users/view/{id}(id=${user.id})}" class="btn btn-info">Ver</a>
                     <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning">Editar</a>
                 </td>
             </tr>
@@ -47,7 +42,7 @@
 
       <div class="row">
         <div class="col-md-4 mb-3 mt-3">
-          <a type="button" class="btn btn-lg btn-block btn-secondary text-white" th:href="@{/inicio}">Voltar</a>
+          <a type="button" class="btn btn-lg btn-block btn-secondary text-white" th:href="@{/}">Voltar</a>
         </div>
       </div>
     </div>

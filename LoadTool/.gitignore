@@ -1,16 +1,77 @@
-# Ignorar a pasta .metadata
+# ===== IDEs =====
+
+# STS (Spring Tool Suite) / Eclipse
 .metadata/
-.metadata
+.project
+.classpath
+.settings/
+bin/
+target/
 
-# Ignorar vscode
-.vscode
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+*.orig
 
-# Ignorar arquivos de log
+# VSCode
+.vscode/
+
+# ===== Arquivos comuns =====
+
+# Logs
 *.log
 
-# Ignorar a pasta node_modules (comum em projetos Node.js)
+# Arquivos temporários / backup
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+*.old
+
+# Arquivos do sistema operacional
+.DS_Store        # macOS
+Thumbs.db        # Windows
+ehthumbs.db      # Windows
+
+# ===== Node.js (caso use pacotes frontend) =====
 node_modules/
 
-# Ignorar arquivos de configuração local
+# ===== Configurações sensíveis =====
 .env
-.DS_Store
+.env.*
+
+# ===== Build de frontend (caso use) =====
+dist/
+build/
+*.map
+
+# ===== Java =====
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+**/build/
+**/out/
+
+# ===== MySQL (caso gere dumps) =====
+*.sql
+*.sql.gz

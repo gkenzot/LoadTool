@@ -32,7 +32,7 @@ importScript('https://code.jquery.com/jquery-3.7.1.min.js');
 importScript('https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js');
 
 // Bootstrap JS
-importScript('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
+//importScript('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
 
 // Importe os outros scripts usando import
 //import './scripts/placeholder.js';

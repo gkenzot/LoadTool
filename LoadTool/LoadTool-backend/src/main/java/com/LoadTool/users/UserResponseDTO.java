@@ -12,6 +12,10 @@ public record UserResponseDTO(
     @Schema(description = "E-mail válido", example = "joao@email.com")
     String email,
     
+    // Remover no futuro
+    @Schema(description = "Password", example = "senha123")
+    String password,
+    
     @Schema(description = "Telefone", example = "5511987654321")
     String phone,
     
@@ -26,6 +30,7 @@ public record UserResponseDTO(
             user.getId(),
             user.getName(),
             user.getEmail(),
+            user.getPassword(), //Remover no futuro
             user.getPhone(),
             user.getAddress(),
             user.getCreatedAt()

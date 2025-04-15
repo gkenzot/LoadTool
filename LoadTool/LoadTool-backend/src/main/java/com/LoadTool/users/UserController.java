@@ -30,14 +30,12 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
     
-    // Criar usuário (POST)
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO request) {
         UserResponseDTO response = userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
-    // Atualizar usuário (PUT)
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
         @PathVariable Long id,
