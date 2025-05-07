@@ -2,7 +2,7 @@ USE load_tool;
 
 -- Inserindo usuários (`users`)
 INSERT INTO users (name, email, password, phone, address, created_at) VALUES
-('João Silva', 'joao.silva@example.com', MD5('senha123'), '(11) 98765-4321', 'Rua das Flores, 123, São Paulo, SP', UNIX_TIMESTAMP() * 1000),
+('João Silva', 'joao.silva@example.com', MD5('senha123'), '(11) 98765-4321', 'Avenida Principal 30 ap100', UNIX_TIMESTAMP() * 1000),
 ('Maria Oliveira', 'maria.oliveira@example.com', MD5('senha456'), '(21) 98765-1234', 'Avenida Brasil, 456, Rio de Janeiro, RJ', UNIX_TIMESTAMP() * 1000),
 ('Carlos Souza', 'carlos.souza@example.com', MD5('senha789'), '(31) 98765-5678', 'Rua dos Pinheiros, 789, Belo Horizonte, MG', UNIX_TIMESTAMP() * 1000),
 ('Ana Costa', 'ana.costa@example.com', MD5('senha101'), '(41) 98765-8765', 'Avenida Paulista, 1010, Curitiba, PR', UNIX_TIMESTAMP() * 1000),
